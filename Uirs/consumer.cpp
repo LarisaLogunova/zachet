@@ -29,8 +29,8 @@ matrix consumer::getMeasures(const matrix &results,long double m, long double d)
             pos[0] = results(i,0);
             pos[1] = results(i,1);
             pos[2] = results(i,2);
-            measures(measures.rowsCount(), 0) = pos.length() + g->white_noise_generator(m, d);
-            measures(measures.rowsCount(), 1) = velocity.length() + g->white_noise_generator(m, d);
+            measures(measures.rowsCount() - 1, 0) = pos.length() + g->white_noise_generator(m, d);
+            measures(measures.rowsCount() - 1, 1) = velocity.length() + g->white_noise_generator(m, d);
         }
     }
     return measures;

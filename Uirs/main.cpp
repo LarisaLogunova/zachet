@@ -2,6 +2,7 @@
 #include "custommodel.h"
 #include "integrator.h"
 #include "consumer.h"
+#include <fstream>
 
 using namespace std;
 
@@ -24,6 +25,15 @@ int main()
     cout<<"input D: "<<endl;
     cin >> d;
     consumer *c = new consumer(lat, lon);
-    print(c->getMeasures(s->getResult(), m, d));
+
+    std::ofstream file;
+    file.open("measures.txt");
+    matrix res = c->getMeasures(s->getResult(), m, d);
+    for(int i = 0; i < res.rowsCount(); i++){
+        for(int j = 0; j < res.colsCount(); j++){
+            file<<res(i,j)<<"|";
+        }
+        file<<endl;
+    }
     return 0;
 }
