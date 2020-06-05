@@ -4,12 +4,12 @@
 #include "simplealgorithms.h"
 #include "generator.h"
 
+//класс, описывающий примемник на Земле
 class consumer
 {
 private:
     long double lat, lon, h{6371000.0L}, omega{7.292115E-5};
     vector Xcons;
-    bool visible;
     generator *g;
 public:
     consumer(long double lat,long double lon);

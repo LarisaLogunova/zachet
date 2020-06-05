@@ -4,7 +4,6 @@ consumer::consumer(long double lat,long double lon)
 {
     this->lat = lat;
     this->lon = lon;
-    this->visible = false;
     this->Xcons.resize(3);
     this->g = new generator;
 }
