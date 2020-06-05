@@ -9,8 +9,9 @@ consumer::consumer(long double lat,long double lon)
 }
 
 matrix consumer::getMeasures(const matrix &results,long double m, long double d){
-    matrix measures(0,2);
+    matrix measures(0,3);
     for (int i = 0; i < results.rowsCount(); i++){
+        measures.resize(measures.rowsCount() + 1, 3);
         long double cur_lon = this->lon + omega*results(i,6);
         this->Xcons = simpleAlgorithms::polarToXYZ(lat, cur_lon, h);
         vector temp(3);
@@ -19,7 +20,6 @@ matrix consumer::getMeasures(const matrix &results,long double m, long double d)
         temp[2] = results(i, 2);
         long double alpha = acos(temp*Xcons/(temp.length()*Xcons.length()));
         if (alpha < 2.269){
-            measures.resize(measures.rowsCount() + 1, 2);
             vector velocity(3);
             vector pos(3);
             velocity[0] = results(i, 3);
@@ -30,6 +30,11 @@ matrix consumer::getMeasures(const matrix &results,long double m, long double d)
             pos[2] = results(i,2);
             measures(measures.rowsCount() - 1, 0) = pos.length() + g->white_noise_generator(m, d);
             measures(measures.rowsCount() - 1, 1) = velocity.length() + g->white_noise_generator(m, d);
+            measures(measures.rowsCount() - 1, 2) = results(i,6);
+        }else{
+            measures(measures.rowsCount() - 1, 0) = 0.0;
+            measures(measures.rowsCount() - 1, 1) = 0.0;
+            measures(measures.rowsCount() - 1, 2) = results(i,6);
         }
     }
     return measures;
